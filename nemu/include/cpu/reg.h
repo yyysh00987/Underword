@@ -14,7 +14,6 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
-<<<<<<< HEAD
  typedef struct {
 	 swaddr_t eip;//pc
 	 union{
@@ -30,26 +29,6 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 		}gpr[8];
 
 	 };
-=======
-
-
-
-
-typedef struct{
-	swaddr_t eip;//pc
-
-	union{
-	union{
-		uint32_t _32;
-		uint16_t _16;
-		uint8_t _8[2];
-     } gpr[8]; 
-
-	struct{uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;};//reg*8
-
-	};
-
->>>>>>> 1d31d584d3f581398e50a5538b2a9e4197db26a8
 	 union {
 		struct {
 			uint32_t CF		:1;
@@ -71,13 +50,8 @@ typedef struct{
 		};
 		uint32_t val;
 	} eflags;
-<<<<<<< HEAD
  }CPU_state;
 
-=======
-} CPU_state;
-	
->>>>>>> 1d31d584d3f581398e50a5538b2a9e4197db26a8
 
 extern CPU_state cpu;
 
