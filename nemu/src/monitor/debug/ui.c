@@ -62,6 +62,14 @@ static int cmd_info(char *args){
 	char* part_args=strtok(tmp," ");
 	if(strcmp(part_args,"r")==0){
 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
+		//eax, ecx, edx, ebx, esp, ebp, esi, edi
+		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
+		printf("ebx   0x%x   %d\n",cpu.ebx,cpu.ebx);
+		printf("edx   0x%x   %d\n",cpu.edx,cpu.edx);
+		printf("esp   0x%x   %d\n",cpu.esp,cpu.esp);
+		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
+		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
+		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
 
 	}
 	return 0;
