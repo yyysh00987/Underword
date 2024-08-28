@@ -59,10 +59,9 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 static int cmd_info(char *args){
 	char* tmp=args;
-	char* part_args=strtok(tmp," ");
-	//tip:这里的r是在info之下的第一个部分，是-info -r,而不是-info r.
-	//所以不用再来一次strtok(NULL," ");
-	if(strcmp(part_args,"r")==0){
+	strtok(tmp," ");
+	char* part1=strtok(NULL," ");
+	if(strcmp(part1,"r")==0){
 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
