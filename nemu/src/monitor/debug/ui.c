@@ -60,6 +60,8 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 static int cmd_info(char *args){
 	char* tmp=args;
 	char* part_args=strtok(tmp," ");
+	//tip:这里的r是在info之下的第一个部分，是-info -r,而不是-info r.
+	//所以不用再来一次strtok(NULL," ");
 	if(strcmp(part_args,"r")==0){
 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
@@ -70,10 +72,26 @@ static int cmd_info(char *args){
 		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
 		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
 		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
-
+	 return 0;
 	}
 	return 0;
 
+}
+
+static int cmd_x(char *args){
+	char* tmp=args;
+	char* part1_args=strtok(tmp," ");//N
+	char* part2_args=strtok(NULL," "); //ADDR
+	int n;
+	int * addr;
+	sscanf(part1_args,"%d",&n);
+	sscanf(part2_args,"%p",&addr);
+
+	int i=0;
+	for(;i<n;i++){
+		printf("0x%x,%d\n",*addr,*addr);
+	}
+	return 0;
 }
 
 static struct {
@@ -85,7 +103,8 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{"si","go on step by step",cmd_si},
-	{"info","print all value of reg", cmd_info}
+	{"info ","r print all value of reg", cmd_info},
+	{"x","x 10 0x10000,get 10*4 byte from 0x10000",cmd_x}
 
 	/* TODO: Add more commands */
 
