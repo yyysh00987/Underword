@@ -72,7 +72,7 @@ static int cmd_info(char *args){
 		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
 		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
 		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
-	 return 0;
+	 
 	}
 	return 0;
 
