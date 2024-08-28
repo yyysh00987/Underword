@@ -58,8 +58,7 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 }
 
 static int cmd_info(char *args){
-	char* tmp=args;
-	char* part_args=strtok(tmp," ");
+	char* part_args=strtok(args," ");
 	if(part_args==NULL){
 		cpu_exec(-1);
 		return 0;
@@ -89,8 +88,8 @@ static int cmd_x(char *args){
 	int addr;
 	sscanf(part1_args,"%d",&n);
 	sscanf(part2_args,"%d",&addr);
-	int i=0;
-	for(;i<n;i++){
+	int u=0;
+	for(;u<n;u++){
 		int num=swaddr_read(addr, 4);
 		printf("0x%x\n",num);
 	}
