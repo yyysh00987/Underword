@@ -106,9 +106,10 @@ static int cmd_x(char *args){
 	char* part1_args=strtok(tmp," ");//N
 	char* part2_args=strtok(NULL," "); //ADDR
 	int n;
-	int addr;
+	swaddr_t addr;
 	sscanf(part1_args,"%d",&n);
-	sscanf(part2_args,"%d",&addr);
+	sscanf(part2_args,"%x",&addr);
+	printf("0x%x:",addr);
 	int u=1;
 	for(;u<=n;u++){
 		int num=swaddr_read(addr, 4);
