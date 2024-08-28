@@ -96,6 +96,7 @@ static int cmd_info(char *args){
     printf("%-6s  0x%08x  %10d\n", "ebp", cpu.ebp, cpu.ebp);
     printf("%-6s  0x%08x  %10d\n", "esi", cpu.esi, cpu.esi);
     printf("%-6s  0x%08x  %10d\n", "edi", cpu.edi, cpu.edi);
+	printf("%-6s  0x%08x  %10d\n", "eip", cpu.eip, cpu.eip);
 	}
 	return 0;
 
