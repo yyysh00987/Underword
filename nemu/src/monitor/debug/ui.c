@@ -78,15 +78,24 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 static int cmd_info(char *args){
 	if(strcmp(args,"r")==0){
-		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
-		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
-		printf("ebx   0x%x   %d\n",cpu.ebx,cpu.ebx);
-		printf("edx   0x%x   %d\n",cpu.edx,cpu.edx);
-		printf("esp   0x%x   %d\n",cpu.esp,cpu.esp);
-		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
-		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
-		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
+		// printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
+		// printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
+		// printf("ebx   0x%x   %d\n",cpu.ebx,cpu.ebx);
+		// printf("edx   0x%x   %d\n",cpu.edx,cpu.edx);
+		// printf("esp   0x%x   %d\n",cpu.esp,cpu.esp);
+		// printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
+		// printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
+		// printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
+
+    printf("%-6s  0x%08x  %10d\n", "eax", cpu.eax, cpu.eax);
+    printf("%-6s  0x%08x  %10d\n", "ecx", cpu.ecx, cpu.ecx);
+    printf("%-6s  0x%08x  %10d\n", "ebx", cpu.ebx, cpu.ebx);
+    printf("%-6s  0x%08x  %10d\n", "edx", cpu.edx, cpu.edx);
+    printf("%-6s  0x%08x  %10d\n", "esp", cpu.esp, cpu.esp);
+    printf("%-6s  0x%08x  %10d\n", "ebp", cpu.ebp, cpu.ebp);
+    printf("%-6s  0x%08x  %10d\n", "esi", cpu.esi, cpu.esi);
+    printf("%-6s  0x%08x  %10d\n", "edi", cpu.edi, cpu.edi);
 	}
 	return 0;
 
