@@ -109,8 +109,9 @@ static int cmd_x(char *args){
 	int addr;
 	sscanf(part1_args,"%d",&n);
 	sscanf(part2_args,"%d",&addr);
-	int u=0;
-	for(;u<n;u++){
+	int u=1;
+	for(;u<=n;u++){
+		addr*=u;
 		int num=swaddr_read(addr, 4);
 		printf("0x%x\n",num);
 	}
