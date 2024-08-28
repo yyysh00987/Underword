@@ -113,7 +113,7 @@ static int cmd_x(char *args){
 	int u=1;
 	for(;u<=n;u++){
 		swaddr_t num=swaddr_read(addr, 4);
-		Log("0x%x  ",num);
+		printf("0x%08x  ",num);
 		addr+=4;//这里一开始写成了addr*=u;实际上应该是4，4，4的挪
 	}
 	return 0;
