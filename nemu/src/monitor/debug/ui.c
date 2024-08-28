@@ -117,7 +117,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{"si","go on step by step",cmd_si},
-	{"info ","r print all value of reg", cmd_info},
+	{"info","r print all value of reg", cmd_info},
 	{"x","x 10 0x10000,get 10*4 byte from 0x10000",cmd_x}
 
 	/* TODO: Add more commands */
