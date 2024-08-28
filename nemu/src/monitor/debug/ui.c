@@ -28,7 +28,9 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-	cpu_exec(-1);
+	cpu_exec(-1); //c是运行，-1转换为无符号数表示最大整数
+	//因为不要si无限执行，所以-1肯定要改
+	//再去cpu_exec()里面看看这个参数跟执行什么时候end的关系
 	return 0;
 }
 
@@ -38,14 +40,32 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){//args 是字符串，要分成si 和 N
+	//1、分割args
+	//2、把分割的后半部分换成int step
+	//3、cpu_exec(step)
+	char* tmp=args;
+	char* part_args=strtok(tmp," ");
+	int step;
+	if(part_args==NULL){
+		cpu_exec(-1);
+		return 0;
+	}
+	sscanf(part_args,"%d",&step);
+	cpu_exec(step);
+	return 0;
+
+}
+
 static struct {
 	char *name;
 	char *description;
-	int (*handler) (char *);
+	int (*handler) (char *); //函数指针
 } cmd_table [] = {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{"si","go on step by step",cmd_si}
 
 	/* TODO: Add more commands */
 

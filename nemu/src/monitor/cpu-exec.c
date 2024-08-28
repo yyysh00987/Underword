@@ -7,9 +7,9 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 1
+#define MAX_INSTR_TO_PRINT 10
 
-int nemu_state = STOP;
+int nemu_state = STOP; //init
 
 int exec(swaddr_t);
 
@@ -36,13 +36,13 @@ void do_int3() {
 
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
-	if(nemu_state == END) {
+	if(nemu_state == END) { //盲猜一下END==STOP
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
 		return;
 	}
 	nemu_state = RUNNING;
 
-#ifdef DEBUG
+#ifdef DEBUG //搜索发现DEBUG没有定义
 	volatile uint32_t n_temp = n;
 #endif
 
@@ -51,7 +51,7 @@ void cpu_exec(volatile uint32_t n) {
 	for(; n > 0; n --) {
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
-		if((n & 0xffff) == 0) {
+		if((n & 0xffff) == 0) { //提取低16位
 			/* Output some dots while executing the program. */
 			fputc('.', stderr);
 		}
