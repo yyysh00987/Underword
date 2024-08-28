@@ -83,13 +83,14 @@ static int cmd_x(char *args){
 	char* part1_args=strtok(tmp," ");//N
 	char* part2_args=strtok(NULL," "); //ADDR
 	int n;
-	int * addr;
+	int addr;
 	sscanf(part1_args,"%d",&n);
-	sscanf(part2_args,"%p",&addr);
-
+	sscanf(part2_args,"%d",&addr);
 	int i=0;
 	for(;i<n;i++){
-		printf("0x%x,%d\n",*addr,*addr);
+		int num=swaddr_read(addr, 4*n);
+		printf("0x%x\n",num);
+
 	}
 	return 0;
 }
