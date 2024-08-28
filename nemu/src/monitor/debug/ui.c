@@ -40,22 +40,6 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-// static int cmd_si(char *args){//args 是字符串，要分成si 和 N
-// 	//1、分割args
-// 	//2、把分割的后半部分换成int step
-// 	//3、cpu_exec(step)
-// 	char* tmp=args;
-// 	char* part_args=strtok(tmp," ");
-// 	int step;
-// 	if(part_args==NULL){ //输入为空
-// 		cpu_exec(-1);
-// 		return 0;
-// 	}
-// 	sscanf(part_args,"%d",&step);
-// 	cpu_exec(step);
-// 	return 0;
-
-// }
 
 static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 	//1、接收r
@@ -69,14 +53,31 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 }
 
 
+// static int cmd_info(char *args){
+// 	char* part_args=strtok(args," ");
+// 	if(part_args==NULL){
+// 		cpu_exec(-1);
+// 		return 0;
+// 	}
+// 	char* part1=strtok(NULL," ");
+// 	if(strcmp(part1,"r")==0){
+// 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
+// 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
+// 		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
+// 		printf("ebx   0x%x   %d\n",cpu.ebx,cpu.ebx);
+// 		printf("edx   0x%x   %d\n",cpu.edx,cpu.edx);
+// 		printf("esp   0x%x   %d\n",cpu.esp,cpu.esp);
+// 		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
+// 		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
+// 		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
+	 
+// 	}
+// 	return 0;
+
+// }
+
 static int cmd_info(char *args){
-	char* part_args=strtok(args," ");
-	if(part_args==NULL){
-		cpu_exec(-1);
-		return 0;
-	}
-	char* part1=strtok(NULL," ");
-	if(strcmp(part1,"r")==0){
+	if(strcmp(args,"r")==0){
 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
@@ -86,7 +87,6 @@ static int cmd_info(char *args){
 		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
 		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
 		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
-	 
 	}
 	return 0;
 
