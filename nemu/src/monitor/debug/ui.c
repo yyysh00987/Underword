@@ -61,7 +61,7 @@ static int cmd_info(char *args){
 	char* tmp=args;
 	char* part_args=strtok(tmp," ");
 	if(strcmp(part_args,"r")==0){
-		printf("eax  0x%x\n",cpu.eax);
+		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
 
 	}
 	return 0;
