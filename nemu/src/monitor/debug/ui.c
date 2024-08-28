@@ -47,12 +47,22 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 	char* tmp=args;
 	char* part_args=strtok(tmp," ");
 	int step;
-	if(part_args==NULL){
+	if(part_args==NULL){ //输入为空
 		cpu_exec(-1);
 		return 0;
 	}
 	sscanf(part_args,"%d",&step);
 	cpu_exec(step);
+	return 0;
+
+}
+
+static int cmd_info(char *args){
+	char* tmp=args;
+	char* part_args=strtok(tmp," ");
+	if(strcmp(part_args,"r")==0){
+		printf("eax  %x\n",cpu.eax);
+	}
 	return 0;
 
 }
@@ -65,7 +75,8 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{"si","go on step by step",cmd_si}
+	{"si","go on step by step",cmd_si},
+	{"info","print all value of reg", cmd_info}
 
 	/* TODO: Add more commands */
 
