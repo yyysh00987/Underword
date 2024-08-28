@@ -58,25 +58,14 @@ static int cmd_help(char *args);
 // }
 
 static int cmd_si(char *args){//args 是字符串，要分成si 和 N
-	//1、分割args
-	//2、把分割的后半部分换成int step
+	//1、接收r
+	//2、把r换成int step
 	//3、cpu_exec(step)
-	char* tmp=args;
-	char* part_args=strtok(tmp," ");
-	char *part_step=strtok(NULL," ");
-	if(part_args==NULL){ //输入为空
-		cpu_exec(-1);
-		return 0;
-	}
-	if(strcmp(part_step,"1")==0){
-		cpu_exec(1);
-		return 0;
-	}
 	int step;
-	sscanf(part_args,"%d",&step);
+	if(args==NULL)step=1;
+	sscanf(args,"%d",&step);
 	cpu_exec(step);
 	return 0;
-
 }
 
 
