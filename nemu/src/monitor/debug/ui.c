@@ -106,14 +106,14 @@ static int cmd_x(char *args){
 	char* part1_args=strtok(tmp," ");//N
 	char* part2_args=strtok(NULL," "); //ADDR
 	int n;
-	swaddr_t addr;
+	swaddr_t addr; //这里卡了，一开始写的类型是int,没有注意函数要的类型是swaddr_t
 	sscanf(part1_args,"%d",&n);
-	sscanf(part2_args,"%x",&addr);
+	sscanf(part2_args,"%x",&addr); //这里也卡了，弄成了%d，然后才改成%x
 	printf("0x%x:",addr);
 	int u=1;
 	for(;u<=n;u++){
-		int num=swaddr_read(addr, 4);
-		printf("0x%x\n",num);
+		swaddr_t num=swaddr_read(addr, 4);
+		printf("0x%x  ",num);
 		addr+=4;//这里一开始写成了addr*=u;实际上应该是4，4，4的挪
 	}
 	return 0;
