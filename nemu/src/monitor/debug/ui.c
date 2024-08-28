@@ -88,9 +88,8 @@ static int cmd_x(char *args){
 	sscanf(part2_args,"%d",&addr);
 	int i=0;
 	for(;i<n;i++){
-		int num=swaddr_read(addr, 4*n);
+		int num=swaddr_read(addr, 4);
 		printf("0x%x\n",num);
-
 	}
 	return 0;
 }
