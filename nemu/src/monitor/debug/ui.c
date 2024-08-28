@@ -59,7 +59,11 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 static int cmd_info(char *args){
 	char* tmp=args;
-	strtok(tmp," ");
+	char* part_args=strtok(tmp," ");
+	if(part_args==NULL){
+		cpu_exec(-1);
+		return 0;
+	}
 	char* part1=strtok(NULL," ");
 	if(strcmp(part1,"r")==0){
 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
