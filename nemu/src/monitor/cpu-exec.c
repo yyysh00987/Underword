@@ -43,7 +43,7 @@ void cpu_exec(volatile uint32_t n) {
 	}
 	nemu_state = RUNNING;
 
-#ifdef DEBUG //搜索发现DEBUG没有定义
+#ifdef DEBUG 
 	volatile uint32_t n_temp = n;
 #endif
 
