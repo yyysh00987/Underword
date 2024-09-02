@@ -581,14 +581,11 @@ static int findop(int p,int q,bool *success){
 		*success = false;
 		return 0;
 	}
+
 	else {
 		
-		  uint32_t result = eval(0, nr_token - 1, success);
-		  if (!*success) {
-        printf("Error evaluating expression.\n");
-		return -1;
-		}
-		  return result;
+		  return eval(0, nr_token - 1, success);
+		 
 	}
 	}
 
