@@ -8,6 +8,12 @@
 #include <stdlib.h>
 
 uint32_t Regval(char *s,bool *success);
+uint32_t eval(int p,int q,bool *success);
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
 
 enum {
 	NOTYPE = 256, 
@@ -436,33 +442,46 @@ static int findop(int p,int q,bool *success){
 		int op=-1; //指示dominant operator的位置
 		int i;
 			for (i= q; i>=p; i-- ) {
-					if (tokens[i].type == ')') {
-               // Handle nested parentheses
-            	int count = 1;
-           		 while (count > 0 && i >= p) {
-                     i--;
-               		 if (tokens[i].type == ')') count++;
+			// 		if (tokens[i].type == ')') {
+            //    // Handle nested parentheses
+            // 	int count = 1;
+           	// 	 while (count > 0 && i >= p) {
+            //          i--;
+            //    		 if (tokens[i].type == ')') count++;
 					 
-               		 else if (tokens[i].type == '(') count--;
-						}
-					}
+            //    		 else if (tokens[i].type == '(') count--;
+			// 			}
+			// 		}
+					 if(tokens[i].type == '(')
+           			 {
+               			 while(tokens[i].type != ')')
+                  			  i ++;
+							  if (i > q) {
+                    *success = false;
+                    return -1; // 添加越界检查
+                }
+          		  }
 					
 					else if (!sym && (tokens[i].type == '+' || tokens[i].type == '-' || 
                             tokens[i].type == '*' || tokens[i].type == '/')) {
             // Set the operation position
-           			 sym = true;
-          			  op = i;
+           				 sym = true;
+          			  op = max(op,i);
+					  return op;
 					  printf("The op's position is %d\n",op);
 					}
 
 				}
+
 				if(op==-1){
-				*success=false;
-				return -1;
-				}
-				*success=true;
-				return op;
-}
+					*success=false;
+					return -1;
+			}
+
+			*success=true;
+			return op;
+				
+		}
 
 	uint32_t eval(int p,int q,bool *success){
 			
@@ -471,7 +490,9 @@ static int findop(int p,int q,bool *success){
 				assert(0);
 				return -1;//返回到op不存在
 			}
+
 			else if(p==q){//10 16 reg
+
 			uint32_t val;
 			switch(tokens[p].type){
 				case REG:
@@ -491,27 +512,30 @@ static int findop(int p,int q,bool *success){
 			*success=1;
 			return val;
 		 }
-			else if(check_parenthese(p,q)==true){//throw away the parenthese
+
+
+			else if(check_parenthese(p,q)==true){
+				//throw away the parenthese
 				return eval(p+1,q-1,success);
 			}
 			else{
-				int op=findop(p,q,success);
-				if(!*success) {  return 0; }
 
+				int op=findop(p,q,success);
+				
 				int opType=tokens[op].type;
 
 				uint32_t div1,div2;
 				div1=eval(p,op-1,success);
+
 				if(!*success) { return 0; }
+
 				div2=eval(op+1,q,success);
+
 				if(!*success) { return 0; }
 
 				
-
 			switch (opType) 
 			{
-				default:
-					assert(0);
 				case 5:
 				return div1==div2;
 
@@ -534,13 +558,17 @@ static int findop(int p,int q,bool *success){
 				return div1*div2;
 
 				case '/':
-				if(!div2){
-					assert(0);
+				if(div2==0){
+					success=false;
+					return 0;
 				}
 				return div1/div2;
 
-				}
-
+				default :
+					 printf("No Op type.");
+                assert(0);
+			}
+				
 				}
 				/* TODO: Insert codes to evaluate the expression. */
 				panic("please implement me");
