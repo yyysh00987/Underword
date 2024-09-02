@@ -476,74 +476,148 @@ bool check_parenthese(int l,int r){
 			}
 			else{
 
-				int op=-1; //指示dominant operator的位置
-				int i;
-				bool flag=false;
-			for (i= p; i<=q; i++ ) {
+			// 	int op=-1; //指示dominant operator的位置
+			// 	int i;
+			// 	bool flag=false;
+			// for (i= p; i<=q; i++ ) {
 
-				 if(tokens[i].type == '(')
-           		 {
-               		 while(tokens[i].type != ')')
-                  			  i ++;
-				 }
+			// 	 if(tokens[i].type == '(')
+           	// 	 {
+            //    		 while(tokens[i].type != ')')
+            //       			  i ++;
+			// 	 }
 							 
 					
-				 if (tokens[i].type == '+' || tokens[i].type == '-' || 
-                         tokens[i].type == '*' || tokens[i].type == '/') 
-						{
-						flag=1;
-          				 op = max(op,i);
+			// 	 if (tokens[i].type == '+' || tokens[i].type == '-' || 
+            //              tokens[i].type == '*' || tokens[i].type == '/') 
+			// 			{
+			// 			flag=1;
+          	// 			 op = max(op,i);
 
-						}
-			}
-				int opType=tokens[op].type;
+			// 			}
+			// }
+			// 	int opType=tokens[op].type;
 
-				uint32_t div1,div2;
-				div1=eval(p,op-1,success);
+			// 	uint32_t div1,div2;
+			// 	div1=eval(p,op-1,success);
 
-				if(!*success) { return 0; }
+			// 	if(!*success) { return 0; }
 
-				div2=eval(op+1,q,success);
+			// 	div2=eval(op+1,q,success);
 
-				if(!*success) { return 0; }
+			// 	if(!*success) { return 0; }
 
 				
-			switch (opType) 
-			{
-				case 5:
-				return div1==div2;
+			// switch (opType) 
+			// {
+			// 	case 5:
+			// 	return div1==div2;
 
-				case 6:
-				return div1!=div2;
+			// 	case 6:
+			// 	return div1!=div2;
 
-				case 7:
-				return div1&&div2;
+			// 	case 7:
+			// 	return div1&&div2;
 
-				case 8:
-				return div1||div2;
+			// 	case 8:
+			// 	return div1||div2;
 
-				case '+':
-				return div1+div2;
+			// 	case '+':
+			// 	return div1+div2;
 
-				case '-':
-				return div1-div2;
+			// 	case '-':
+			// 	return div1-div2;
 
-				case '*':
-				return div1*div2;
+			// 	case '*':
+			// 	return div1*div2;
 
-				case '/':
-				if(div2==0){
-					success=false;
-					return 0;
-				}
-				return div1/div2;
+			// 	case '/':
+			// 	if(div2==0){
+			// 		success=false;
+			// 		return 0;
+			// 	}
+			// 	return div1/div2;
 
-				default :
-					 printf("No Op type.");
+			// 	default :
+			// 		 printf("No Op type.");
+            //     assert(0);
+			// }
+				int op = -1; // op = the position of 主运算符 in the token expression;
+        bool flag = false;
+		int i;
+        for( i = p ; i <= q ; i ++)
+        {
+            if(tokens[i].type == '(')
+            {
+                while(tokens[i].type != ')')
+                    i ++;
+            }
+            if(!flag && tokens[i].type == 6){
+                flag = true;
+                op = max(op,i);
+            }
+
+            if(!flag && tokens[i].type == 7 ){
+				flag = true;
+                op = max(op,i);
+            }
+
+            if(!flag && tokens[i].type == 5){
+                flag = true;
+                op = max(op,i);
+            }
+
+            if(!flag && tokens[i].type == 4){
+                flag = true;
+                op = max(op,i);
+            }
+            if(!flag && tokens[i].type == 10){
+                flag = true;
+                op = max(op, i);
+            }
+            if(!flag && (tokens[i].type == '+' || tokens[i].type == '-')){
+                flag = true;
+                op = max(op, i);
+            }
+            if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
+                op = max(op, i);
+            }
+        }
+        //      printf("op position is %d\n", op);
+        // if register return $register
+        int  op_type = tokens[op].type;
+
+        // 递归处理剩余的部分
+        uint32_t  val1 = eval(p, op - 1,success);
+        uint32_t  val2 = eval(op + 1, q,success);
+        //      printf("val1 = %d, val2 = %d \n", val1, val2);
+
+        switch (op_type) {
+            case '+':
+                return val1 + val2;
+            case '-':
+                return val1 - val2;
+            case '*':
+                return val1 * val2;
+            case '/':
+                if(val2 == 0){//printf("division can't zero;\n");
+                   *success=false;
+                    return 0;
+                }
+                return val1 / val2;
+            case 4:
+                return val1 == val2;
+            case 5:
+                return val1 != val2;
+            case 6:
+                return val1 || val2;
+            case 7:
+                return val1 && val2;
+            default:
+                printf("No Op type.");
                 assert(0);
-			}
-				
-	  	}
+        }
+    }
 	}
 	
 	
