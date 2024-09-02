@@ -438,7 +438,6 @@ bool check_parenthese(int l,int r){
 				//所以除括号之外：优先级 ||<&&<!=<==<!<*
 			*/
 static int findop(int p,int q,bool *success){
-		bool sym= false;
 		int op=-1; //指示dominant operator的位置
 		int i;
 			for (i= p; i<=q; i++ ) {
@@ -450,10 +449,10 @@ static int findop(int p,int q,bool *success){
 					 }
 							 
 					
-					else if (!sym && (tokens[i].type == '+' || tokens[i].type == '-' || 
-                            tokens[i].type == '*' || tokens[i].type == '/')) {
-            
-           				  sym = true;
+					 if (tokens[i].type == '+' || tokens[i].type == '-' || 
+                            tokens[i].type == '*' || tokens[i].type == '/') 
+							{
+								
           			 	 op = max(op,i);
 						   printf("The op's position is %d\n",op);
 						  return op;
