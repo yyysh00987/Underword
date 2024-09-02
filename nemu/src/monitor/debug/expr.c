@@ -35,7 +35,7 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-	{"[0-9]*",num},					// 1
+	{"[0-9]{1,10}",num},					// 1
 	{" +",	NOTYPE},				// spaces 256,NOTYPE位置本来应该是数字，
 									//但是上面的enum让NOTYPE=256了
 	{"\\+", '+'},					// plus
@@ -45,12 +45,12 @@ static struct rule {
 	{"\\(",ZK},						//2
 	{"\\)",YK},						//3
 	{"==", EQ},						// equal 4
-	{"!",NO},
+	{"!",'!'},
 	{"!=",NEQ},
 	{"&&",AND},
-	{"||",OR},
-	{"0[xX][0-9a-fA-F]+",HEX},
-	{"\\$[a-zA-Z]*[0-9]*",REG},
+	{"\\|\\|",OR},
+	{"0x[0-9a-fA-F]{1,8}",HEX},
+	{"\\$[a-z]{1,31}",REG},
 
 };
 
