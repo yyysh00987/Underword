@@ -27,6 +27,7 @@ enum {
 	OR=8,
 	HEX=9,
 	REG=10,
+	POINT,NEG
 
 	/* TODO: Add more token types */
 	//优先级 ||<&&<!=<==<!<*/<+-
@@ -41,7 +42,7 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-	{"[0-9]{1,10}",num},					// 1
+	{"[0-9]*",num},					// 1
 	{" +",	NOTYPE},				// spaces 256,NOTYPE位置本来应该是数字，
 									//但是上面的enum让NOTYPE=256了
 	{"\\+", '+'},					// plus
@@ -55,8 +56,8 @@ static struct rule {
 	{"!=",NEQ},
 	{"&&",AND},
 	{"\\|\\|",OR},
-	{"0x[0-9a-fA-F]{1,8}",HEX},
-	{"\\$[a-z]{1,31}",REG},
+	{"0[xX][0-9a-fA-F]+",HEX},
+	{"\\$[a-zA-Z]*[0-9]*",REG},
 
 };
 
@@ -250,21 +251,21 @@ static bool make_token(char *e) {
 
                     case num:
                         tmpToken.type = num;
-                        strncpy(tmpToken.str, substr_start, substr_len);
+                        strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
                         tmpToken.str[substr_len] = '\0';
                         tokens[nr_token++] = tmpToken;
                         break;
 
                     case HEX:
                         tmpToken.type = HEX;
-                        strncpy(tmpToken.str, substr_start, substr_len);
+                         strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
                         tmpToken.str[substr_len] = '\0';
                         tokens[nr_token++] = tmpToken;
                         break;
 
                     case REG:
                         tmpToken.type = REG;
-                        strncpy(tmpToken.str, substr_start, substr_len);
+                        strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
                         tmpToken.str[substr_len] = '\0';
                         tokens[nr_token++] = tmpToken;
                         break;
@@ -299,6 +300,7 @@ static bool make_token(char *e) {
 	int k;
 	for(k=0;k<Howmanytypes;k++){//HEX:(str16->int16->int10->str10)
 		if(tokens[k].type==9){
+
 			uint32_t hex_val=strtol(tokens[k].str,NULL,16);
 			char tmp[32];
 			sprintf(tmp,"%d",hex_val);
@@ -437,39 +439,24 @@ bool check_parenthese(int l,int r){
 				//括号内部的内容不可能成为op
 				//所以除括号之外：优先级 ||<&&<!=<==<!<*
 			*/
-static int findop(int p,int q,bool *success){
-		int op=-1; //指示dominant operator的位置
-		int i;
-			for (i= p; i<=q; i++ ) {
-
-					 if(tokens[i].type == '(')
-           			 {
-               			 while(tokens[i].type != ')')
-                  			  i ++;
-					 }
-							 
-					
-					 if (tokens[i].type == '+' || tokens[i].type == '-' || 
-                            tokens[i].type == '*' || tokens[i].type == '/') 
-							{
-								
-          			 	 op = max(op,i);
-						   printf("The op's position is %d\n",op);
-						  return op;
+// static int findop(int p,int q,bool *success){
+		
+// 						   printf("The op's position is %d\n",op);
+// 						  return op;
 						
-						}
+// 						}
 
-					}
+// 					}
 
-				if(op==-1){
-					*success=false;
-					return -1;
-			}
+// 				if(op==-1){
+// 					*success=false;
+// 					return -1;
+// 			}
 
-			*success=true;
-			return op;
+// 			*success=true;
+// 			return op;
 				
-		}
+// 		}
 
 	uint32_t eval(int p,int q,bool *success){
 			
@@ -480,26 +467,8 @@ static int findop(int p,int q,bool *success){
 
 			else if(p==q){//10 16 reg
 
-			uint32_t val;
-			switch(tokens[p].type){
-				case REG:
-				val =Regval(tokens[p].str+1,success);
-				if(!*success){return 0;}
-				break;
-
-				case num:val=strtol(tokens[p].str,NULL,0); val=(uint32_t)val;break;
-
-				case HEX:val=strtol(tokens[p].str,NULL,0);val=(uint32_t)val;break;
-
-
-
-				default:assert(0);
-
-			  }
-			*success=1;
-			return val;
-		 }
-
+			return atoi(tokens[p].str);
+			}
 
 			else if(check_parenthese(p,q)==true){
 				//throw away the parenthese
@@ -507,8 +476,26 @@ static int findop(int p,int q,bool *success){
 			}
 			else{
 
-				int op=findop(p,q,success);
-				
+				int op=-1; //指示dominant operator的位置
+				int i;
+				bool flag=false;
+			for (i= p; i<=q; i++ ) {
+
+				 if(tokens[i].type == '(')
+           		 {
+               		 while(tokens[i].type != ')')
+                  			  i ++;
+				 }
+							 
+					
+				 if (tokens[i].type == '+' || tokens[i].type == '-' || 
+                         tokens[i].type == '*' || tokens[i].type == '/') 
+						{
+						flag=1;
+          				 op = max(op,i);
+
+						}
+			}
 				int opType=tokens[op].type;
 
 				uint32_t div1,div2;
@@ -556,11 +543,9 @@ static int findop(int p,int q,bool *success){
                 assert(0);
 			}
 				
-				}
-				/* TODO: Insert codes to evaluate the expression. */
-				panic("please implement me");
-				return 0;
 	  	}
+	}
+	
 	
 	
 
