@@ -122,6 +122,17 @@ static int cmd_x(char *args){
 	return 0;
 }
 
+static int cmd_p(char *args){
+	if(args==NULL) return 0;
+	else{
+		bool flag=false;
+		uint32_t resval=expr(args,&flag);
+		printf("The result is %d\n",resval);
+		return 0;
+	}
+
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -132,7 +143,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"si","go on step by step",cmd_si},
 	{"info","r print all value of reg", cmd_info},
-	{"x","x 10 0x10000,get 10*4 byte from 0x10000",cmd_x}
+	{"x","x 10 0x10000,get 10*4 byte from 0x10000",cmd_x},
+	{"p","culcuate the exp",cmd_p}
 
 	/* TODO: Add more commands */
 
