@@ -455,8 +455,9 @@ static int findop(int p,int q,bool *success){
             
            				  sym = true;
           			 	 op = max(op,i);
+						   printf("The op's position is %d\n",op);
 						  return op;
-						  printf("The op's position is %d\n",op);
+						
 						}
 
 					}
