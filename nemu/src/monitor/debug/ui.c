@@ -127,7 +127,7 @@ static int cmd_p(char *args){
 	else{
 		bool flag=false;
 		uint32_t resval=expr(args,&flag);
-		printf("The result is %d\n",resval);
+		if(flag) printf("The result is %d\n",resval);
 		return 0;
 	}
 
