@@ -452,6 +452,7 @@ static int findop(int p,int q,bool *success){
             // Set the operation position
            			 sym = true;
           			  op = i;
+					  printf("The op's position is %d\n",op);
 					}
 
 				}
