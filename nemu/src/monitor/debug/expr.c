@@ -487,7 +487,6 @@ static int findop(int p,int q,bool *success){
 			
 			if(p>q){
 				*success=false;
-				assert(0);
 				return -1;//返回到op不存在
 			}
 
@@ -584,10 +583,14 @@ static int findop(int p,int q,bool *success){
 	}
 	else {
 		
-		return eval(0,nr_token-1,success);  //对吗
+		  uint32_t result = eval(0, nr_token - 1, success);
+		  if (!*success) {
+        printf("Error evaluating expression.\n");
+		return -1;
+		}
+		  return result;
 	}
-
-}
+	}
 
 	
 
