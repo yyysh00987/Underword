@@ -441,37 +441,25 @@ static int findop(int p,int q,bool *success){
 		bool sym= false;
 		int op=-1; //指示dominant operator的位置
 		int i;
-			for (i= q; i>=p; i-- ) {
-			// 		if (tokens[i].type == ')') {
-            //    // Handle nested parentheses
-            // 	int count = 1;
-           	// 	 while (count > 0 && i >= p) {
-            //          i--;
-            //    		 if (tokens[i].type == ')') count++;
-					 
-            //    		 else if (tokens[i].type == '(') count--;
-			// 			}
-			// 		}
+			for (i= p; i<=q; i++ ) {
+
 					 if(tokens[i].type == '(')
            			 {
                			 while(tokens[i].type != ')')
                   			  i ++;
-							  if (i > q) {
-                    *success = false;
-                    return -1; // 添加越界检查
-                }
-          		  }
+					 }
+							 
 					
 					else if (!sym && (tokens[i].type == '+' || tokens[i].type == '-' || 
                             tokens[i].type == '*' || tokens[i].type == '/')) {
-            // Set the operation position
-           				 sym = true;
-          			  op = max(op,i);
-					  return op;
-					  printf("The op's position is %d\n",op);
-					}
+            
+           				  sym = true;
+          			 	 op = max(op,i);
+						  return op;
+						  printf("The op's position is %d\n",op);
+						}
 
-				}
+					}
 
 				if(op==-1){
 					*success=false;
