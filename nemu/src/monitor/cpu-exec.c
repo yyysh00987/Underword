@@ -13,6 +13,7 @@
 int nemu_state = STOP; //init
 
 int exec(swaddr_t);
+bool test_change();
 
 char assembly[80];
 char asm_buf[128];
@@ -60,9 +61,10 @@ void cpu_exec(volatile uint32_t n) {
 
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
-		int instr_len = exec(cpu.eip);
+		
+		int instr_len = exec(cpu.eip);//执行指令，返回当前执行指令长度
 
-		cpu.eip += instr_len;
+		cpu.eip += instr_len;//下条指令地址
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
@@ -74,6 +76,10 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
+		bool change=test_change();
+		if(change){
+			nemu_state=STOP;
+		}
 
 
 #ifdef HAS_DEVICE

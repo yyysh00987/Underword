@@ -8,6 +8,7 @@
 	make_helper(concat(name, _v)) { \
 		return (ops_decoded.is_operand_size_16 ? concat(name, _w) : concat(name, _l)) (eip); \
 	}
+//输入的name替换所有的name
 
 #define do_execute concat4(do_, instr, _, SUFFIX)
 
@@ -15,6 +16,7 @@
 	make_helper(concat5(instr, _, type, _, SUFFIX)) { \
 		return idex(eip, concat4(decode_, type, _, SUFFIX), do_execute); \
 	}
+//如果instr和SUFFIX也是宏，那么也会被替换（？
 
 extern char assembly[];
 #ifdef DEBUG

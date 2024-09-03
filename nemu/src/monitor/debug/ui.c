@@ -7,7 +7,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+
 void cpu_exec(uint32_t);
+
+WP* new_wp(char *e);
+
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -53,29 +58,6 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 }
 
 
-// static int cmd_info(char *args){
-// 	char* part_args=strtok(args," ");
-// 	if(part_args==NULL){
-// 		cpu_exec(-1);
-// 		return 0;
-// 	}
-// 	char* part1=strtok(NULL," ");
-// 	if(strcmp(part1,"r")==0){
-// 		printf("eax   0x%x   %d\n",cpu.eax,cpu.eax);
-// 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
-// 		printf("ecx   0x%x   %d\n",cpu.ecx,cpu.ecx);
-// 		printf("ebx   0x%x   %d\n",cpu.ebx,cpu.ebx);
-// 		printf("edx   0x%x   %d\n",cpu.edx,cpu.edx);
-// 		printf("esp   0x%x   %d\n",cpu.esp,cpu.esp);
-// 		printf("ebp   0x%x   %d\n",cpu.ebp,cpu.ebp);
-// 		printf("esi   0x%x   %d\n",cpu.esi,cpu.esi);
-// 		printf("edi   0x%x   %d\n",cpu.edi,cpu.edi);
-	 
-// 	}
-// 	return 0;
-
-// }
-
 static int cmd_info(char *args){
 	if(strcmp(args,"r")==0){
 
@@ -91,9 +73,12 @@ printf("edi     0x%08x      %-10d\n", cpu.edi, cpu.edi);
 printf("eip     0x%08x      %-10d\n", cpu.eip, cpu.eip);
 
 	}
+	
 	return 0;
 
 }
+
+
 
 static int cmd_x(char *args){
 	char* tmp=args;
@@ -124,6 +109,30 @@ bool success=true;
 
 }
 
+
+
+static int cmd_w(char *args){
+	WP* n_wp;
+	n_wp=new_wp(args);
+	printf("Set a new watchpoint %d:%s.\n",n_wp->NO,n_wp->expr);
+	return 0;
+}
+
+static int cmd_d(char *args){
+	char *arg=strtok(NULL," ");
+	int num=0;
+	sscanf(arg,"%d",&num);
+	bool res=delete_watchpoint(num);
+	if(res){
+		printf("delete %d",num);
+	}
+	else
+		printf("no %d :(",num);
+
+	return 0;
+}
+
+
 static struct {
 	char *name;
 	char *description;
@@ -133,9 +142,11 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{"si","go on step by step",cmd_si},
-	{"info","r print all value of reg", cmd_info},
+	{"info","r 打印 w 监控 d删除监控点", cmd_info},
 	{"x","x 10 0x10000,get 10*4 byte from 0x10000",cmd_x},
-	{"p","culcuate the exp",cmd_p}
+	{"p","culcuate the exp",cmd_p},
+	{ "d", "Delete watchpoint", cmd_d },
+	{"w","这是啥来这我也忘了",cmd_w}
 
 	/* TODO: Add more commands */
 
