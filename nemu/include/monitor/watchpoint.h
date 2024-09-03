@@ -6,10 +6,11 @@
 typedef struct watchpoint {
 	int NO;
 	struct watchpoint *next;
-
-	/* TODO: Add more members if necessary */
 	uint32_t old_val;
 	uint32_t new_val;
+
+	/* TODO: Add more members if necessary */
+	
 	char exp[1024];
 
 
@@ -26,4 +27,5 @@ void delete_wp(int no);
 void print_wp();
 
 bool check_wp(swaddr_t eip);
+
 #endif

@@ -86,28 +86,35 @@ if() break;
 bool check_wp(swaddr_t eip)
 {	WP *wp = head;
 	bool success = false, has_wp = false;
+
 	while(wp != NULL){
 		success = true;
 		wp->new_val = expr(wp->exp,&success);
+
 		assert(success);
 		wp = wp->next;
 	}
 	wp = head;
 	while(wp != NULL){
 		if(wp->new_val != wp->old_val){
+
 			has_wp = true;
+
 			printf("Hint watchpoint %d at address 0x%.8x , expr = %s\n\nOld value = %d (0x%x)\nNew value = %d (0x%x)\n", wp->NO, cpu.eip, wp->exp, wp->old_val, wp->old_val, wp->new_val, wp->new_val);
 			wp->old_val = wp->new_val;
 		}
 		wp = wp->next;
 	}
+
 	return has_wp;
 }
 
 void info_wp()
 {	
 	printf("NO\tType      \tExpression\n");
+
 	WP *wp_temp = head;
+
 	while(wp_temp != NULL){
 		printf("%d\twatchpoint\t%s\n",wp_temp->NO,wp_temp->exp);
 		wp_temp = wp_temp->next;
@@ -117,14 +124,17 @@ void info_wp()
 void delete_wp(int no)
 {
 	WP *wp_temp = head;
+
 	while(wp_temp != NULL){
 		if(wp_temp->NO == no){
 			free_wp(wp_temp);
 			printf("Deleted watchponit %d.\n",no);
 			return ;
 		}
+
 		wp_temp = wp_temp->next;
 	}
+	
 	if(wp_temp == NULL)
 	      printf("NO watchponit %d !\n",no);
 }

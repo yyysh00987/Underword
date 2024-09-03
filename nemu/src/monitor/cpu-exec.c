@@ -13,7 +13,7 @@
 int nemu_state = STOP; //init
 
 int exec(swaddr_t);
-bool check_wp();
+bool check_wp(swaddr_t eip);
 
 char assembly[80];
 char asm_buf[128];
