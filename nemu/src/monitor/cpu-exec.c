@@ -13,7 +13,7 @@
 int nemu_state = STOP; //init
 
 int exec(swaddr_t);
-bool test_change();
+bool check_wp();
 
 char assembly[80];
 char asm_buf[128];
@@ -32,6 +32,12 @@ void print_bin_instr(swaddr_t eip, int len) {
 
 /* This function will be called when an `int3' instruction is being executed. */
 void do_int3() {
+	
+
+
+
+
+
 	printf("\nHit breakpoint at eip = 0x%08x\n", cpu.eip);
 	nemu_state = STOP;
 }
@@ -76,10 +82,8 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-		bool change=test_change();
-		if(change){
-			nemu_state=STOP;
-		}
+		if (!check_wp())nemu_state = STOP;
+		if(nemu_state != RUNNING) { return; }
 
 
 #ifdef HAS_DEVICE
@@ -88,6 +92,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		if(nemu_state != RUNNING) { return; }
+		
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }

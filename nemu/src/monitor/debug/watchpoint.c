@@ -1,6 +1,8 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
 
+#include "nemu.h"
+
 #define NR_WP 32
 
 static WP wp_pool[NR_WP];
@@ -22,86 +24,124 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 // 在 ui.c 文件的开头或相关头文件中
 
-WP* new_wp(char *e){//从 free_链表中返回一个空闲的监视点结构给head链表(放在尾巴上)，且将表达式，表达式的值赋给该监视点结构
+WP* new_wp(){//从 free_链表中返回一个空闲的监视点结构给head链表(放在尾巴上)，且将表达式，表达式的值赋给该监视点结构
 
-	if(free_==NULL){assert(0);}//确保有空节点
+	// if(free_==NULL){assert(0);}//确保有空节点
 
-	WP *tmp=free_;//获取当前空监视点
-	free_=free_->next;
-	tmp->next=NULL;
+	// WP *tmp=free_;//获取当前空监视点
+	// free_=free_->next;
+	// tmp->next=NULL;
 
-	bool success = false;
-	tmp->expr=strdup(e);
-	tmp->old_val = expr(tmp->expr, &success);
-	assert(success);
+	// bool success = false;
+	// tmp->val=strdup(e);
+	// tmp->val = expr(tmp->val, &success);
+	// assert(success);
 
-	if(head==NULL){
-		head=tmp;
-	}
-	else{
-		WP* h=head;
-		while(h->next){
-			h=h->next;
+	// if(head==NULL){
+	// 	head=tmp;
+	// }
+	// else{
+	// 	WP* h=head;
+	// 	while(h->next!=NULL){
+	// 		h=h->next;
+	// 	}
+	// h->next=tmp;
+	//
+//	return tmp;}
+
+	WP *f,*p;
+	f = free_;
+	free_ = free_->next;
+	f->next = NULL;
+	p = head;
+	if (p == NULL){head = f;p = head;}
+	else {
+		while (p->next!=NULL)p=p->next;
+		p->next = f;
 		}
-	h->next=tmp;
-	}
+	return f;
 
-	return tmp;
 
 }
 
-bool free_wp(WP *p){//将一个活的监视点释放回free链表中
+void free_wp(WP *wp){//将一个活的监视点释放回free链表中
+	WP *h,*p;
+	p=free_;
 	if(p==NULL){
-		return 0;
-	}
-	if(p==head){
-		head=p->next;
+		free_=wp;
+		p=free_;
 	}
 	else{
-		WP *h=head;
-		while(h->next!=p){
-			h=h->next;
-		}
-		if(h==NULL) return 0;
-
-		h->next=p->next;
+		while (p->next!=NULL)p=p->next;
+		p->next = wp;
 	}
-		p->next=free_;
-		free_ = p;
-		return 1;
-}
-
-bool test_change(){
-		WP* p=head;
-		bool success=true;
-		int val;
-
-		while (p->next)
-		{
-			p=p->next;
-			val=expr(p->expr,&success);
-			assert(success);
-			if(val==p->old_val)return true;
+	h=head;
+	if(head==NULL){
+		assert(0);
+	}
+	if (head->NO == wp->NO)
+	{
+	head = head->next;
+	}
+	else 
+	{
+	while (h->next != NULL && h->next->NO != wp->NO)
+	{
+		h = h->next;
 		}
-		
-	return false;
+	if (h->next == NULL && h->NO == wp->NO)printf ("what hell");
+	else if (h->next->NO == wp->NO)h->next = h->next->next;
+	else assert (0);
+	
+	}
+	wp->next = NULL;
+	wp->val = 0;
+	wp->b = 0;
+	wp->expr[0] = '\0';
 }
 
-void print_wp(){
-	WP* p=head;
-		bool success=true;
-		int val;
+	
 
-		while (p->next)
+bool check_wp()
+{
+	WP *f;
+	f = head;
+	bool key = true;
+	bool suc;
+	while (f != NULL)
+	{
+		uint32_t tmp_expr = expr (f->expr,&suc);
+		if (!suc)assert (1);
+		if (tmp_expr != f->val)
 		{
-			p=p->next;
-			val=expr(p->expr,&success);
-			assert(success);
-			printf("%d %s %d",p->NO,p->expr,p->old_val);
+			key = false;
+			if (f->b)
+			{
+				printf ("Hit breakpoint %d at 0x%08x\n",f->b, cpu.eip);
+				f = f->next;
+				continue;
+			}
+			printf ("Watchpoint %d: %s\n",f->NO,f->expr);
+			printf ("Old value = %d\n",f->val);
+			printf ("New value = %d\n",tmp_expr);
+			f->val = tmp_expr;
 		}
-		
-
+		f = f->next;
+	}
+	return key;
 }
+
+void info_wp()
+{
+	WP *f;
+	f=head;
+	while (f!=NULL)
+	{
+		printf ("Watchpoint %d: %s = %d\n",f->NO,f->expr,f->val);
+		f = f->next;
+	}
+}
+
 
 //1申请新空 2记录表达式
 // 3当cpu_exec()执行完一条指令，对表达式求值：expr
@@ -118,58 +158,9 @@ if() break;
 //命令：info w打印    d 删除
 
 
-int set_watchpoint(char *e){
-	uint32_t val;
-	bool  success=true;
-	val=expr(e,&success);
-	assert(!success);	
-
-	WP *p= new_wp(e);
-	p->expr=strdup(e);
-	p->old_val=val;
-
-	p->next=head;
-	head=p;//插到开头
-	return p->NO;//返回新监视点的编号
-}
-
-bool delete_watchpoint(int NO){
-	WP *p;
-	WP *former=NULL;
-
-	for(p=head;p!=NULL;former=p,p=p->next){
-		if(p->NO==NO) break;
-	}
-
-	if(p==NULL){//没有这个监控点
-		return false;
-	}
-	if(former==NULL){
-		head=p->next;
-	}
-	else{
-		former->next=p->next;
-	}
-
-	free_wp(p);
-	return 1;
-
-}
-
-void list_watchpoint() {//列出所有监视点
-	if(head == NULL) {//没有活着的监控点
-		printf("No watchpoints\n");
-		return;
-	}
-
-	else{
-		printf("%8s\t%8s\t%8s\n", "NO", "Address", "Enable");
-		 WP *p;
-    for(p = head; p != NULL; p = p->next) {
-
-        printf("%8d\t%s\t%#08x\n", p->NO, p->expr, p->old_val);
-    }
-	}
-
-
+void delete_wp(int num)
+{
+	WP *f;
+	f = &wp_pool[num];
+	free_wp (f);
 }

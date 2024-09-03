@@ -10,7 +10,8 @@
 
 void cpu_exec(uint32_t);
 
-WP* new_wp(char *e);
+WP* new_wp();
+void delete_wp(int num);
 
 
 
@@ -60,8 +61,6 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 static int cmd_info(char *args){
 	if(strcmp(args,"r")==0){
-
-
 printf("eax     0x%08x      %-10d\n", cpu.eax, cpu.eax);
 printf("ecx     0x%08x      %-10d\n", cpu.ecx, cpu.ecx);
 printf("ebx     0x%08x      %-10d\n", cpu.ebx, cpu.ebx);
@@ -73,7 +72,9 @@ printf("edi     0x%08x      %-10d\n", cpu.edi, cpu.edi);
 printf("eip     0x%08x      %-10d\n", cpu.eip, cpu.eip);
 
 	}
-	
+		else if (args[0] == 'w') {
+	info_wp();	
+}
 	return 0;
 
 }
@@ -112,23 +113,21 @@ bool success=true;
 
 
 static int cmd_w(char *args){
-	WP* n_wp;
-	n_wp=new_wp(args);
-	printf("Set a new watchpoint %d:%s.\n",n_wp->NO,n_wp->expr);
+			WP *f;
+		bool suc;
+		f = new_wp();
+		printf ("Watchpoint %d: %s\n",f->NO,args);
+		f->val = expr (args,&suc);
+		strcpy (f->expr,args);
+		if (!suc)Assert (1,"wrong\n");
+		printf ("Value : %d\n",f->val);
 	return 0;
 }
 
 static int cmd_d(char *args){
-	char *arg=strtok(NULL," ");
-	int num=0;
-	sscanf(arg,"%d",&num);
-	bool res=delete_watchpoint(num);
-	if(res){
-		printf("delete %d",num);
-	}
-	else
-		printf("no %d :(",num);
-
+	int num;
+	sscanf (args,"%d",&num);
+	delete_wp (num);
 	return 0;
 }
 
