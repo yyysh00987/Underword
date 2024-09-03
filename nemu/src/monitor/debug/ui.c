@@ -78,16 +78,7 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 static int cmd_info(char *args){
 	if(strcmp(args,"r")==0){
-		//右对齐的
-    // printf("%-6s  0x%08x  %10d\n", "eax", cpu.eax, cpu.eax);
-    // printf("%-6s  0x%08x  %10d\n", "ecx", cpu.ecx, cpu.ecx);
-    // printf("%-6s  0x%08x  %10d\n", "ebx", cpu.ebx, cpu.ebx);
-    // printf("%-6s  0x%08x  %10d\n", "edx", cpu.edx, cpu.edx);
-    // printf("%-6s  0x%08x  %10d\n", "esp", cpu.esp, cpu.esp);
-    // printf("%-6s  0x%08x  %10d\n", "ebp", cpu.ebp, cpu.ebp);
-    // printf("%-6s  0x%08x  %10d\n", "esi", cpu.esi, cpu.esi);
-    // printf("%-6s  0x%08x  %10d\n", "edi", cpu.edi, cpu.edi);
-	// printf("%-6s  0x%08x  %10d\n", "eip", cpu.eip, cpu.eip);
+
 
 printf("eax     0x%08x      %-10d\n", cpu.eax, cpu.eax);
 printf("ecx     0x%08x      %-10d\n", cpu.ecx, cpu.ecx);
@@ -123,13 +114,12 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	if(args==NULL) return 0;
-	else{
-		bool flag=false;
+
+		bool flag=true;
 		uint32_t resval=expr(args,&flag);
-		if(flag) printf("The result is %d\n",resval);
+		if(flag) printf("0x%x (%u)\n",resval,resval);
 		return 0;
-	}
+	
 
 }
 
