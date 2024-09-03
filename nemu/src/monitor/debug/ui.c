@@ -114,12 +114,13 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
+bool success=true;
+ uint32_t val =expr(args,&success);//调用expr函数
+ if(success){
+	printf("The result is 0x%x (%u)\n",val,val);
 
-		bool flag=true;
-		uint32_t resval=expr(args,&flag);
-		if(flag) printf("0x%x (%u)\n",resval,resval);
-		return 0;
-	
+ }
+ return 0;
 
 }
 
