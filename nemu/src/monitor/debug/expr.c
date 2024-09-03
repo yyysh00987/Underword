@@ -338,7 +338,10 @@ uint32_t expr(char *e, bool *success) {
 				tokens[i].type = REF;
 		}
 		uint32_t val = eval(0, nr_token-1, success);
-		if(*success){return val;}	
+		if(*success){
+			printf("The result is %d\n",val);
+			return val;
+			}	
 	}
 	*success = false;
 	panic("please implement me");
