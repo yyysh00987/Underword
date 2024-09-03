@@ -32,12 +32,6 @@ void print_bin_instr(swaddr_t eip, int len) {
 
 /* This function will be called when an `int3' instruction is being executed. */
 void do_int3() {
-	
-
-
-
-
-
 	printf("\nHit breakpoint at eip = 0x%08x\n", cpu.eip);
 	nemu_state = STOP;
 }
@@ -82,8 +76,12 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-		if (!check_wp())nemu_state = STOP;
-		if(nemu_state != RUNNING) { return; }
+	
+		if(check_wp(cpu.eip)){			
+			nemu_state = STOP;
+			return;
+		}
+			
 
 
 #ifdef HAS_DEVICE

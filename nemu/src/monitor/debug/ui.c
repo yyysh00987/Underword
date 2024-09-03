@@ -12,6 +12,7 @@ void cpu_exec(uint32_t);
 
 WP* new_wp();
 void delete_wp(int num);
+void info_wp();
 
 
 
@@ -32,6 +33,8 @@ char* rl_gets() {
 
 	return line_read;
 }
+
+int nr_exp = 0, nr_wp = 0; 
 
 static int cmd_c(char *args) {
 	cpu_exec(-1); //c是运行，-1转换为无符号数表示最大整数
@@ -60,6 +63,7 @@ static int cmd_si(char *args){//args 是字符串，要分成si 和 N
 
 
 static int cmd_info(char *args){
+	char *arg=strtok(NULL," ");
 	if(strcmp(args,"r")==0){
 printf("eax     0x%08x      %-10d\n", cpu.eax, cpu.eax);
 printf("ecx     0x%08x      %-10d\n", cpu.ecx, cpu.ecx);
@@ -72,9 +76,13 @@ printf("edi     0x%08x      %-10d\n", cpu.edi, cpu.edi);
 printf("eip     0x%08x      %-10d\n", cpu.eip, cpu.eip);
 
 	}
-		else if (args[0] == 'w') {
-	info_wp();	
-}
+		else if (*arg == 'w'){
+		// todo
+		info_wp();	
+	}else{
+		printf("Undefined info command: \"%s\".  Try \"help info\".\n",args);
+		return 0;
+	}
 	return 0;
 
 }
@@ -113,21 +121,33 @@ bool success=true;
 
 
 static int cmd_w(char *args){
-		WP *f;
-		bool suc;
-		f = new_wp();
-		printf ("Watchpoint %d: %s\n",f->NO,args);
-		f->val = expr (args,&suc);
-		strcpy (f->expr,args);
-		if (!suc)Assert (1,"wrong\n");
-		printf ("Value : %d\n",f->val);
+		bool success = true;
+	uint32_t val = expr(args , &success);
+	if(!success){
+		printf("Invalid expression!\n");
+		return 0;
+	}
+	WP *wp = new_wp();
+	if(wp != NULL){
+		strcpy(wp->exp,args);
+		wp->old_val = val;
+		wp->new_val = val;
+		wp->NO = nr_wp;
+		printf("watchpoint %d : %s\n", nr_wp, args);
+		nr_wp++;
+	}else{
+		printf("Too many watchpoint!\n");
+	}
 	return 0;
 }
 
 static int cmd_d(char *args){
-	int num;
-	sscanf (args,"%d",&num);
-	delete_wp (num);
+	int no;
+	if(sscanf(args,"%d",&no) != 1){
+		printf("Invalid Argumnts!");
+		return 0;
+	}
+	delete_wp(no);	
 	return 0;
 }
 
