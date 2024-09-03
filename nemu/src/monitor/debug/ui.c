@@ -113,7 +113,7 @@ bool success=true;
 
 
 static int cmd_w(char *args){
-			WP *f;
+		WP *f;
 		bool suc;
 		f = new_wp();
 		printf ("Watchpoint %d: %s\n",f->NO,args);
