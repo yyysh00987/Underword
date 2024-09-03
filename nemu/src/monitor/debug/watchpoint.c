@@ -87,6 +87,22 @@ bool test_change(){
 	return false;
 }
 
+void print_wp(){
+	WP* p=head;
+		bool success=true;
+		int val;
+
+		while (p->next)
+		{
+			p=p->next;
+			val=expr(p->expr,&success);
+			assert(success);
+			printf("%d %s %d",p->NO,p->expr,p->old_val);
+		}
+		
+
+}
+
 //1申请新空 2记录表达式
 // 3当cpu_exec()执行完一条指令，对表达式求值：expr
 /*while(执行结束前){
