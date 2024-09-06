@@ -27,7 +27,6 @@ void init_wp_pool() {
 WP* new_wp(){//从 free_链表中返回一个空闲的监视点结构给head链表(放在尾巴上)，且将表达式，表达式的值赋给该监视点结构
 
 	if(free_==NULL)return NULL;//确保有空节点
-
 	WP *tmp=free_;//获取当前空监视点
 	free_=free_->next;
 	
