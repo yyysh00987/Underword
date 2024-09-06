@@ -1,8 +1,8 @@
 #include "cpu/exec/template-start.h"
 
-#define instr call_i_v
+#define instr call
 
-make_helper(concat(call_i,SUFFIX)){
+make_helper(concat(call_i_,SUFFIX)){
 
     int len=concat(decode_i_,SUFFIX)(cpu.eip+1);
 
@@ -18,3 +18,6 @@ make_helper(concat(call_i,SUFFIX)){
      return len + 1;
 
 }
+
+#include "cpu/exec/template-end.h"
+
