@@ -13,17 +13,17 @@ static void do_execute(){
 make_instr_helper(i)
 
 
-// #undef instr
-// /*------------------------------------------------------*/
-// #define instr jbe
-// static void do_execute(){
-//    DATA_TYPE_S imm = op_src->val;
-//    print_asm("jbe\t%x",cpu.eip + imm + DATA_BYTE + 1);
-//     if(cpu.eflags.ZF == 1 || cpu.eflags.CF == 1)
-//     cpu.eip += imm;
-// }
-// make_instr_helper(i)
-// #undef instr
+#undef instr
+/*------------------------------------------------------*/
+#define instr jbe
+static void do_execute(){
+   DATA_TYPE_S imm = op_src->val;
+   print_asm("jbe\t%x",cpu.eip + imm + DATA_BYTE + 1);
+    if(cpu.eflags.ZF == 1 || cpu.eflags.CF == 1)
+    cpu.eip += imm;
+}
+make_instr_helper(i)
+ #undef instr
 // /*-------------------------------------------------------*/
 
 // #define instr ja
