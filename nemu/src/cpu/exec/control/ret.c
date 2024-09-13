@@ -28,6 +28,7 @@
 
 
 make_helper(ret) {
+	printf("eip:%d\n",cpu.eip);
 	cpu.eip = swaddr_read(cpu.esp, 4);
 		printf("eip:%d\n",cpu.eip);
 	cpu.esp += 4;
