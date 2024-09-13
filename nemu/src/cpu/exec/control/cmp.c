@@ -12,7 +12,7 @@
 #include "cmp-template.h"
 #undef DATA_BYTE
 
-//new
+/* for instruction encoding overloading */
 
 make_helper_v(cmp_i2a)
 make_helper_v(cmp_i2rm)
