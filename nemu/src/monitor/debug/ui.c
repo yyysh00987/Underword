@@ -105,6 +105,17 @@ static int cmd_p(char *args) {
 	return 0;
 }
 
+
+static int cmd_w(char *args) {
+	if(args) {
+		int NO = set_watchpoint(args);
+		if(NO != -1) { printf("Set watchpoint #%d\n", NO); }
+		else { printf("Bad expression\n"); }
+	}
+	return 0;
+}
+
+
 static int cmd_q(char *args) {
 	return -1;
 }
@@ -123,7 +134,8 @@ static struct {
 	   { "info", "info r - print register values; info w - show watch point state", cmd_info },
 	{ "x", "Examine memory", cmd_x },
 	{ "p", "Evaluate the value of expression", cmd_p },
-
+	{ "w", "Set watchpoint", cmd_w },
+	
 
 	/* TODO: Add more commands */
 
