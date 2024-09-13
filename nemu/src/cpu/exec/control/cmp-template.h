@@ -3,8 +3,8 @@
 #define instr cmp
 
 static void do_execute () {
-	printf("op_dest: %d\n",op_dest->val);
 	printf("eax: %d\n",cpu.eax);
+		printf("op_dest: %d\n",op_dest->val);
 	printf("op_src: %d\n",op_src->val);
 	DATA_TYPE result = op_dest->val - op_src->val;
 	
