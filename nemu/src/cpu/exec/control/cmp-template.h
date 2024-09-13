@@ -3,9 +3,16 @@
 #define instr cmp
 
 static void do_execute () {
-	DATA_TYPE result = op_dest->val - op_src->val;
+	printf("op_dest%d\n",op_dest->val);
+	printf("op_src%d\n",op_src->val);
 
+	DATA_TYPE result = op_dest->val - op_src->val;
+	
+	printf("result%d\n",result);
+	
+	printf("1 ZF%d\n",cpu.eflags.ZF);
 	update_eflags_pf_zf_sf((DATA_TYPE_S)result);
+		printf("2 ZF%d\n",cpu.eflags.ZF);
 	cpu.eflags.CF = result > op_dest->val;
 	cpu.eflags.OF = MSB((op_dest->val ^ op_src->val) & (op_dest->val ^ result));
 
