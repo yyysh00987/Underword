@@ -24,7 +24,7 @@ static void do_execute(){
 }
 make_instr_helper(i)
  #undef instr
-// /*-------------------------------------------------------*/
+ /*-------------------------------------------------------*/
 
 // #define instr ja
 // static void do_execute() 
@@ -36,15 +36,15 @@ make_instr_helper(i)
 // make_instr_helper(i)
 // #undef instr
 
-// #define instr jle
-// static void do_execute() 
-// {	
-// 	DATA_TYPE_S imm = op_src -> val;
-//     print_asm("jle\t%x", cpu.eip + 1 + DATA_BYTE + imm);
-//     if (cpu.eflags.ZF == 1 || cpu.eflags.SF != cpu.eflags.OF) cpu.eip += imm;
-// }
-// make_instr_helper(i)
-// #undef instr
+#define instr jle
+static void do_execute() 
+{	
+	DATA_TYPE_S imm = op_src -> val;
+    print_asm("jle\t%x", cpu.eip + 1 + DATA_BYTE + imm);
+    if (cpu.eflags.ZF == 1 || cpu.eflags.SF != cpu.eflags.OF) cpu.eip += imm;
+}
+make_instr_helper(i)
+#undef instr
 
 // #define instr jae
 // static void do_execute() 

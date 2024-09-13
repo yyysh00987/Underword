@@ -23,7 +23,7 @@ make_helper_v(je_i)
 
 // make_helper_v(jg_i)
 // make_helper_v(jge_i)
-// make_helper_v(jle_i)
+ make_helper_v(jle_i)
 // make_helper_v(jl_i)
 make_helper_v(jne_i)
 // make_helper_v(jno_i)
