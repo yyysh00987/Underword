@@ -9,3 +9,6 @@
 #undef DATA_BYTE
 
 make_helper_v(pop_r)
+make_helper_v(pop_rm)
+
+	
