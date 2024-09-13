@@ -1,14 +1,23 @@
 #include "cpu/exec/helper.h"
-#include "memory/memory.h"
 
-#define DATA_BYTE 2
-#include "ret-template.h"
-#undef DATA_BYTE
-
-#define DATA_BYTE 4
-#include "ret-template.h"
-#undef DATA_BYTE
-
-make_helper_v(ret_none)
-make_helper_v(ret_i)
-#include "cpu/exec/template-end.h"
+make_helper(ret) {
+	//pop caller next instr address
+	swaddr_t addr = swaddr_read(cpu.esp, 4);
+	cpu.eip = addr - 1;
+	cpu.esp += 4;
+	print_asm("ret");
+	return 1;
+}
+#define instr ret
+#define SUFFIX w
+make_helper(ret_i_w) {
+	int len = decode_i_w(eip + 1);
+	//pop caller next instr address
+	swaddr_t addr = swaddr_read(cpu.esp, 4);
+	cpu.eip = addr - 1 - len;
+	cpu.esp += 4;
+	// pop imm16 bytes
+	cpu.esp += (op_src->val);
+	print_asm_template1();
+	return len + 1;
+}

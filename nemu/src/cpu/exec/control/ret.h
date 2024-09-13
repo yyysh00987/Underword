@@ -1,7 +1,7 @@
-#ifndef __RET_H__
-#define __RET_H__
+#ifndef __RET_H_
+#define __RET_H_
 
+make_helper(ret);
 make_helper(ret_i_w);
-make_helper(ret_none_l);
 
 #endif
