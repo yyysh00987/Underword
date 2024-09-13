@@ -93,6 +93,18 @@ static int cmd_x(char *args) {
 	return 0;
 }
 
+
+static int cmd_p(char *args) {
+	bool success;
+
+	if(args) {
+		uint32_t r = expr(args, &success);
+		if(success) { printf("0x%08x(%d)\n", r, r); }
+		else { printf("Bad expression\n"); }
+	}
+	return 0;
+}
+
 static int cmd_q(char *args) {
 	return -1;
 }
@@ -110,6 +122,8 @@ static struct {
 	 { "si", "Single step", cmd_si },
 	   { "info", "info r - print register values; info w - show watch point state", cmd_info },
 	{ "x", "Examine memory", cmd_x },
+	{ "p", "Evaluate the value of expression", cmd_p },
+
 
 	/* TODO: Add more commands */
 
