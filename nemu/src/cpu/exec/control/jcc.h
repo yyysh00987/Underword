@@ -5,8 +5,8 @@
 make_helper(je_i_b);
 make_helper(je_i_v);
 
-// make_helper(ja_i_b);
-// make_helper(ja_i_v);
+make_helper(ja_i_b);
+ make_helper(ja_i_v);
 // make_helper(jae_i_b);
 // make_helper(jae_i_v);
 // make_helper(jb_i_b);
