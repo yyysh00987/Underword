@@ -116,6 +116,16 @@ static int cmd_w(char *args) {
 }
 
 
+static int cmd_d(char *args) {
+	int NO;
+	sscanf(args, "%d", &NO);
+	if(!delete_watchpoint(NO)) {
+		printf("Watchpoint #%d does not exist\n", NO);
+	}
+
+	return 0;
+}
+
 static int cmd_q(char *args) {
 	return -1;
 }
@@ -135,6 +145,8 @@ static struct {
 	{ "x", "Examine memory", cmd_x },
 	{ "p", "Evaluate the value of expression", cmd_p },
 	{ "w", "Set watchpoint", cmd_w },
+	{ "d", "Delete watchpoint", cmd_d }
+
 	
 
 	/* TODO: Add more commands */
