@@ -2,11 +2,11 @@
 
 make_helper(ret) {
 	//pop caller next instr address
-	printf("1 esp%d",cpu.esp);
+	printf("1 esp:%d\n",cpu.esp);
 	swaddr_t addr = swaddr_read(cpu.esp, 4);
-	printf("2 esp%d",cpu.esp);
-	printf("addr %d",addr);
-	
+	printf("2 esp:%d\n",cpu.esp);
+	printf("addr :%d\n",addr);
+
 	cpu.eip = addr-1 ;
 	cpu.esp += 4;
 	print_asm("ret");
