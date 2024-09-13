@@ -4,10 +4,10 @@
 
 static void do_execute(){
    DATA_TYPE_S imm = op_src -> val;
-   printf("\nimm:%d\n",imm);
+ //  printf("\nimm:%d\n",imm);
     print_asm("je\t%x", cpu.eip + 1 + DATA_BYTE + imm);
     if (cpu.eflags.ZF == 1) cpu.eip += imm;
-    printf("\nZF:%d\n",cpu.eflags.ZF);
+//    printf("\nZF:%d\n",cpu.eflags.ZF);
 }
 
 make_instr_helper(i)
