@@ -4,11 +4,14 @@
 
 void update_eflags_pf_zf_sf(uint32_t a);
 
+
+
 static void do_execute(){
     DATA_TYPE a = op_dest->val;
     DATA_TYPE b = op_src->val;
     DATA_TYPE ans = a - b;
-
+    printf("a:%d\n",a);
+    printf("b:%d\n",b);
     cpu.eflags.CF = a < b;
 
     // update_eflags_pf_zf_sf(ans);
