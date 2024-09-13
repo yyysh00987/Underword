@@ -3,14 +3,14 @@
 #define instr cmp 
 
 static void do_execute () {
-	printf("eax: %d\n",cpu.eax);
+	// printf("eax: %d\n",cpu.eax);
 
-	printf("ecx: %d\n",cpu.ecx);
+	// printf("ecx: %d\n",cpu.ecx);
 
 
-    printf("op_dest: %d\n",op_dest->val);
+    // printf("op_dest: %d\n",op_dest->val);
 
-    printf("op_src: %d\n",op_src->val);
+    // printf("op_src: %d\n",op_src->val);
 	DATA_TYPE result = op_dest->val - op_src->val;
 
 	update_eflags_pf_zf_sf((DATA_TYPE_S)result);
