@@ -7,6 +7,13 @@
 #define decode_i concat(decode_i_, SUFFIX)
 #define decode_a concat(decode_a_, SUFFIX)
 #define decode_r2rm concat(decode_r2rm_, SUFFIX)
+#define decode_none concat(decode_none_, SUFFIX)
+
+make_helper(concat(decode_none_, SUFFIX)){
+	op_src->val = op_dest->val = 0;
+	op_src->size = op_dest->size = 0;
+	return 0;
+}
 
 /* Ib, Iv */
 make_helper(concat(decode_i_, SUFFIX)) {
