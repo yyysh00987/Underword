@@ -7,6 +7,7 @@ make_helper(ret) {
 	print_asm("ret");
 
 	return 1;
+	
 }
 
 make_helper(ret_i) {
