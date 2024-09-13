@@ -2,6 +2,11 @@
 
 int add(int a, int b) {
 	int c = a + b;
+	if (a > 0 && b > 0 && c < 0) {
+    // 正数加正数却得到了负数，溢出
+	set_bp();
+}
+
 	return c;
 }
 
@@ -24,3 +29,5 @@ int main() {
 
 	return 0;
 }
+//数组越界、加法溢出，add 函数直接返回加法结果，但并未处理溢出
+//匹配组合
