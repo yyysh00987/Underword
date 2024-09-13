@@ -1,5 +1,6 @@
 #include "trap.h"
 //ok
+
 typedef unsigned char uint8_t;
 typedef char bool;
 
