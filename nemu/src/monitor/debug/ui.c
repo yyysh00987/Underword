@@ -120,6 +120,7 @@ static int cmd_si(char *args){
 	printf("0x%x\n",cpu.eip);
 	return 0;
 }
+//
 
 static int cmd_info(char *args){
 	char *arg = strtok(NULL, " ");
