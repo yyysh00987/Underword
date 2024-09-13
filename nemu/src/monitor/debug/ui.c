@@ -120,6 +120,7 @@ static int cmd_si(char *args){
 	printf("0x%x\n",cpu.eip);
 	return 0;
 }
+
 static int cmd_info(char *args){
 	char *arg = strtok(NULL, " ");
 	if(strlen(arg)>1){
@@ -193,6 +194,7 @@ static int cmd_w(char *args){
 	}
 	return 0;
 }	
+
 static int cmd_d(char *args){
 	int no;
 	if(sscanf(args,"%d",&no) != 1){
