@@ -5,9 +5,16 @@
 void update_eflags_pf_zf_sf(uint32_t a);
 
 static void do_execute(){
+    printf("eax: %d\n",cpu.eax);
+        printf("op_dest: %d\n",op_dest->val);
+
+    printf("op_src: %d\n",op_src->val);
+
+
     DATA_TYPE a = op_dest->val;
     DATA_TYPE b = op_src->val;
     DATA_TYPE ans = a - b;
+    
 
     cpu.eflags.CF = a < b;
 
