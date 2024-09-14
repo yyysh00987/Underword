@@ -3,7 +3,7 @@
 #define instr cmp
 
 static void do_execute () {
-	printf("ebx:%d\n",cpu.ebx);
+	//printf("ebx:%d\n",*(cpu.ebx-0x100));
 	DATA_TYPE result = op_dest->val - op_src->val;
 
 	update_eflags_pf_zf_sf((DATA_TYPE_S)result);
