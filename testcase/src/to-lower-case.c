@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 char to_lower_case(char c) {
 	return (c >= 'A' && c <= 'Z' ? (c + 32) : c);
 }
