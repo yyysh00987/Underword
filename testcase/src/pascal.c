@@ -1,6 +1,6 @@
 #include "trap.h"
 //#include "stdio.h"
-
+//ok
 #define N 31
 
 int a[N][N];
