@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 int is_leap_year(int n) {
 	return (n % 4 == 0 && n % 100 != 0) || (n % 400 == 0);
 }
