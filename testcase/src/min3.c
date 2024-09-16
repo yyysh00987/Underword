@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 int min3(int x, int y, int z) {
 	int m;
 	if(x < y) { m = x; }
