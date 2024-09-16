@@ -3,10 +3,8 @@
 #define instr mov
 
 static void do_execute() {
-	//printf("mov eip:%d\n",cpu.eip);
 	OPERAND_W(op_dest, op_src->val);
 	print_asm_template2();
-	
 }
 
 make_instr_helper(i2r)
