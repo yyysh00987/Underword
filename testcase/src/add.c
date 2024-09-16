@@ -2,10 +2,7 @@
 
 int add(int a, int b) {
 	int c = a + b;
-	if (a > 0 && b > 0 && c < 0) {
-    // 正数加正数却得到了负数，溢出
-	set_bp();
-}
+	
 
 	return c;
 }
@@ -24,7 +21,7 @@ int main() {
 			nemu_assert(add(test_data[i], test_data[j]) == ans[ans_idx ++]);
 			loop ++;
 		}
-		set_bp();
+	
 	}
 
 	nemu_assert(loop == NR_DATA * NR_DATA);
