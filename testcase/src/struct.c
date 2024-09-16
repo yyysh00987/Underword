@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 #define N 100
 
 struct dummy {
