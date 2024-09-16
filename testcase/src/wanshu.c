@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 int ans[] = {6, 28, 496};
 
 int main() {
