@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 #define N 40
 
 int fib[N] = {1, 1};
