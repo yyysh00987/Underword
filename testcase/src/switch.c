@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 int switch_case(int n) {
 	int ret;
 	switch(n) {
