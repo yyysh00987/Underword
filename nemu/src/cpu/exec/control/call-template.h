@@ -35,7 +35,9 @@
 // #include "cpu/exec/template-end.h"
 
 #include "cpu/exec/template-start.h"
+#include "cpu/decode/decode.h"
 
+//
 #define instr call
 
 static void do_execute(){

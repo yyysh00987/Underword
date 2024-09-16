@@ -4,15 +4,11 @@
 
 static void do_execute(){
    DATA_TYPE_S imm = op_src -> val;
- //  printf("\nimm:%d\n",imm);
     print_asm("je\t%x", cpu.eip + 1 + DATA_BYTE + imm);
     if (cpu.eflags.ZF == 1) cpu.eip += imm;
-//    printf("\nZF:%d\n",cpu.eflags.ZF);
 }
 
 make_instr_helper(i)
-
-
 #undef instr
 /*------------------------------------------------------*/
 #define instr jbe
@@ -23,8 +19,8 @@ static void do_execute(){
     cpu.eip += imm;
 }
 make_instr_helper(i)
- #undef instr
- /*-------------------------------------------------------*/
+#undef instr
+/*-------------------------------------------------------*/
 
 #define instr ja
 static void do_execute() 
@@ -96,15 +92,15 @@ static void do_execute()
 make_instr_helper(i)
 #undef instr
 /*----------------------------------------------------*/
-// #define instr jne
-// static void do_execute() 
-// {
-// 	DATA_TYPE_S imm = op_src -> val;
-//     print_asm("jne\t%x", cpu.eip + 1 + DATA_BYTE + imm);
-//     if (cpu.eflags.ZF == 0) cpu.eip += imm;
-// }
-// make_instr_helper(i)
-// #undef instr
+#define instr jne
+static void do_execute() 
+{
+	DATA_TYPE_S imm = op_src -> val;
+    print_asm("jne\t%x", cpu.eip + 1 + DATA_BYTE + imm);
+    if (cpu.eflags.ZF == 0) cpu.eip += imm;
+}
+make_instr_helper(i)
+#undef instr
 /*----------------------------------------------------*/
 #define instr jno
 static void do_execute() 
@@ -160,41 +156,15 @@ static void do_execute()
 make_instr_helper(i)
 #undef instr
 /*----------------------------------------------------*/
-// #define instr js
-// static void do_execute() 
-// {
-// 	DATA_TYPE_S imm = op_src -> val;
-//     print_asm("js\t%x", cpu.eip + 1 + DATA_BYTE + imm);
-//     if (cpu.eflags.SF == 1) cpu.eip += imm;
-// }
-// make_instr_helper(i)
-// #undef instr
+#define instr js
+static void do_execute() 
+{
+	DATA_TYPE_S imm = op_src -> val;
+    print_asm("js\t%x", cpu.eip + 1 + DATA_BYTE + imm);
+    if (cpu.eflags.SF == 1) cpu.eip += imm;
+}
+make_instr_helper(i)
+#undef instr
 /*----------------------------------------------------*/
-
-#include "cpu/exec/template-end.h"
-
-
-
-#include "cpu/exec/template-start.h"
-
-#define make_jcc_helper(cc) \
-	make_helper(concat4(j, cc, _, SUFFIX)) { \
-		int len = concat(decode_si_, SUFFIX) (eip + 1); \
-		print_asm(str(concat(j, cc)) " %x", cpu.eip + op_src->val + 1 + len + (DATA_BYTE == 4)); \
-		cpu.eip += (concat(check_cc_, cc)() ? op_src->val : 0); \
-		return len + 1; \
-	}
-
-make_jcc_helper(b)
-make_jcc_helper(e)
-make_jcc_helper(ne)
-make_jcc_helper(be)
-make_jcc_helper(a)
-make_jcc_helper(s)
-make_jcc_helper(ns)
-make_jcc_helper(l)
-make_jcc_helper(ge)
-make_jcc_helper(le)
-make_jcc_helper(g)
 
 #include "cpu/exec/template-end.h"
