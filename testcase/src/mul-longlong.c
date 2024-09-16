@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 long long mul(long long a,long long b) {
 	long long ans = a*b;
 	return ans;
