@@ -1,6 +1,6 @@
 #include "trap.h"
 #include <string.h>
-
+//ok
 char *s[] = {
 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
