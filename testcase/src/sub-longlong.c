@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 long long sub(long long a, long long b) {
 	long long c = a - b;
 	return c;
