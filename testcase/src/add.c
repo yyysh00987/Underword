@@ -1,5 +1,5 @@
 #include "trap.h"
-
+//ok
 int add(int a, int b) {
 	int c = a + b;
 	
