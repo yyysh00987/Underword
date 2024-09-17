@@ -5,7 +5,7 @@ FLOAT_CFLAGS := -c -m32 -O2 -fno-builtin  \
 		-I $(LIB_COMMON_DIR)
 
 FLOAT_O := $(FLOAT:.a=.o)
-#FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
+FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
 
 FLOAT_A_OBJ := $(FLOAT_O) $(FLOAT_VFPRINTF_O)
 
@@ -17,7 +17,7 @@ $(FLOAT): $(FLOAT_A_OBJ)
 $(FLOAT_O): lib-common/FLOAT/FLOAT.c
 	mkdir -p $(@D)
 	$(CC) $(FLOAT_CFLAGS) -o $@ $<
-#$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c 
-#	mkdir -p $(@D)
-#	$(CC) -fno-stack-protector -D_FORTIFY_SOURCE=0 $(FLOAT_CFLAGS) -o $@ $<
+$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c 
+	mkdir -p $(@D)
+	$(CC) -fno-stack-protector -D_FORTIFY_SOURCE=0 $(FLOAT_CFLAGS) -o $@ $<
 
