@@ -90,6 +90,7 @@ swaddr_t find_elf_object (char *name){
 		}
 	}
 	return 0;
+	
 }
 
 char *in_which_func (swaddr_t addr) {
@@ -101,4 +102,4 @@ char *in_which_func (swaddr_t addr) {
 		}
 	}
 	return NULL;
-}
+} 
