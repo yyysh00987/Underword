@@ -55,6 +55,8 @@ static int cmd_w(char *args);
 
 static int cmd_d(char *args);
 
+static int cmd_bt(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -69,6 +71,7 @@ static struct {
 	{ "p", "Print value of the expression", cmd_p},
 	{ "w", "Set a watchpoint for an expression.", cmd_w},
 	{ "d", "Delete a watchpoint.", cmd_d},
+	{ "bt", "Print backtrace of all stack frames.", cmd_bt},
 	/* TODO: Add more commands */
 
 };
@@ -120,8 +123,6 @@ static int cmd_si(char *args){
 	printf("0x%x\n",cpu.eip);
 	return 0;
 }
-//
-
 static int cmd_info(char *args){
 	char *arg = strtok(NULL, " ");
 	if(strlen(arg)>1){
@@ -195,7 +196,6 @@ static int cmd_w(char *args){
 	}
 	return 0;
 }	
-
 static int cmd_d(char *args){
 	int no;
 	if(sscanf(args,"%d",&no) != 1){
@@ -206,6 +206,36 @@ static int cmd_d(char *args){
 	return 0;
 }
 
+static int cmd_bt(char *args){
+	if(!cpu.ebp){
+		printf("No stack.");
+	}
+	else{
+		swaddr_t ebp_now = cpu.ebp;
+		swaddr_t ebp_last = cpu.ebp;
+		swaddr_t ret_addr = 0;
+		char *func_name = NULL;
+		int nr_frame = 1, i = 0;
+		printf("#0 %s arg:(%d", in_which_func(cpu.eip), swaddr_read(ebp_last + 8, 4));
+		for(i = 1;i <= 3;i ++)
+		      printf(", %d", swaddr_read(ebp_last + 8 + i * 4, 4));
+		printf(")\n");
+		while(ebp_now) {
+			ebp_last = swaddr_read(ebp_now, 4);
+			ret_addr = swaddr_read(ebp_now + 4, 4);
+			func_name = in_which_func(ret_addr);
+			if(!func_name)break;
+			printf("#%d 0x%08x in %s arg:(%d", nr_frame, ret_addr, func_name, swaddr_read(ebp_last + 8, 4));
+			for(i = 1;i <= 3;i ++)
+			      printf(", %d", swaddr_read(ebp_last + 8  + i * 4, 4));
+			printf(")\n");
+			nr_frame ++;
+			ebp_now = ebp_last;
+
+		}
+	}	
+	return 0;
+}
 void ui_mainloop() {
 	while(1) {
 		char *str = rl_gets();
@@ -239,3 +269,4 @@ void ui_mainloop() {
 		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
 	}
 }
+
