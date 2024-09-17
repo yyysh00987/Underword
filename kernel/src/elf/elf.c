@@ -16,6 +16,7 @@ void ramdisk_read(uint8_t *, uint32_t, uint32_t);
 void create_video_mapping();
 uint32_t get_ucr3();
 
+
 uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL;
@@ -31,25 +32,28 @@ uint32_t loader() {
 	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0xBadC0de;
+	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
 	/* Load each program segment */
-	panic("please implement me");
-	for(; true; ) {
+//	panic("please implement me");
+	ph = (void *)(buf + elf->e_phoff);
+	int i = 0;
+	for(i = 0; i < elf->e_phnum; i++) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-
+	
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			 
-			 
+			ramdisk_read((uint8_t *)ph->p_vaddr, ph->p_offset, ph->p_filesz);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-
+			uint32_t j;
+			for(j = ph->p_filesz;j < ph->p_memsz; j++)
+				*((uint8_t *)(j + ph->p_vaddr)) = 0;
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
@@ -57,7 +61,7 @@ uint32_t loader() {
 			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
-		}
+		}ph ++;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
@@ -74,5 +78,3 @@ uint32_t loader() {
 
 	return entry;
 }
-
-
