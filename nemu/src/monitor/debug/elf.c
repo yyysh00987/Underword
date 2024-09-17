@@ -81,3 +81,25 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
+
+swaddr_t find_elf_object (char *name){
+	int i;
+	for(i = 0;i < nr_symtab_entry;i ++){
+		if(ELF32_ST_TYPE(symtab[i].st_info) == STT_OBJECT){
+			if(strcmp(name, strtab + symtab[i].st_name) == 0)
+			      return symtab[i].st_value;
+		}
+	}
+	return 0;
+}
+
+char *in_which_func (swaddr_t addr) {
+	int i;
+	for(i = 0;i < nr_symtab_entry;i ++){
+		if(ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC){
+			if(addr >= symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size)
+			      return strtab + symtab[i].st_name;
+		}
+	}
+	return NULL;
+}

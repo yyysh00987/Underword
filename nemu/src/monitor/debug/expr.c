@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <regex.h>
 
-//swaddr_t find_elf_object(char *name);
+swaddr_t find_elf_object(char *name);
 
 enum {
 	NOTYPE = 256, EQ, NEQ, LEQ, GEQ,
@@ -271,11 +271,11 @@ static uint32_t eval(int p,int q,bool *success){
 						return reg_b(i);
 				}
 				break;	
-			// case OBJECT:
-			// 	val = find_elf_object(tokens[p].str);
-			// 	Assert(val!=0, "The object don't exist!");
-			// 	return val;
-			// 	break;
+			case OBJECT:
+				val = find_elf_object(tokens[p].str);
+				Assert(val!=0, "The object don't exist!");
+				return val;
+				break;
 			default:
 				break;
 		}		panic("Bad Expression");
